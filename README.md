@@ -146,7 +146,7 @@ PS C:\Users\me> k3sup version
 Git Commit: 5a636dba10e1f8e6bb4bb5982c6e04fc21c34534
 ```
 
-# 4. Install/configure kubectl
+# 4. Install/configure kubectl - [chocolatey required](https://chocolatey.org/install) 
 
 ```
 choco install kubernetes-cli
