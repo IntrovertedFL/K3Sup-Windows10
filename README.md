@@ -22,7 +22,7 @@ Below that line add: username ALL=(ALL) NOPASSWD: ALL
 swapoff -a
 nano /etc/fstab
 Comment out line "#/dev/mapper/master--vg-swap_1 none            swap    sw              0       0"
-reboot and make sure it's off!! It doesn't play well with kubernetes.
+reboot and make sure it's off.
 do "free -h" and make sure swap says "0"
 ```
 
@@ -160,6 +160,16 @@ kubectl version --client
 ```
 curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.18.0/bin/windows/amd64/kubectl.exe
 kubectl version --client
+```
+
+# 5. Now all the fun we worked so hard for. 
+
+* #### Boostrap Master
+
+```
+set VM1=173.208.139.88
+set USER=aaron 
+k3sup install --ip=%VM1% --user=%USER%
 ```
 
 
