@@ -172,7 +172,7 @@ Sample hosts
 ``` 
 k3sup install --ip=192.168.254.69 --user=username
 ```
-* #### Copy kubeconfig to C:\Users\username\.kube\config
+* #### Copy kubeconfig 
 
 ```
 Can click search, type notepad, right click notepad and run as administrator
