@@ -112,6 +112,8 @@ sudo nano /etc/ssh/sshd_config
 Change line #PasswordAuthentication Yes to
 
 PasswordAuthentication no
+
+sudo service ssh restart
 ```
 
 # 3. Install and Configure K3Sup.exe
