@@ -79,7 +79,7 @@ PS C:\K3Sup>
 * #### Option 1. Use SCP (Didn't work for me)
 
 ```
-scp ~/.ssh/id_rsa.pub aaron@173.208.139.88:~/.ssh/authorized_keys
+scp ~/.ssh/id_rsa.pub me@192.168.254.69:~/.ssh/authorized_keys
 ```
 * #### Option 2. Manually Copy 
 
@@ -101,8 +101,10 @@ Press enter & "Ctrl x"
 sudo chmod 600 ~/.ssh/authorized_keys
 sudo chown -R $(whoami):$(whoami) ~/.ssh/
 logout
+
+Should be able to ssh username@192.168.254.69 from Powershell now
 ```
-# D. Disable Password Authentication on your Server
+# D. Disable Password Authentication on your Server (Optional)
 
 ```
 sudo nano /etc/ssh/sshd_config
