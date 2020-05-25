@@ -148,28 +148,30 @@ Git Commit: 5a636dba10e1f8e6bb4bb5982c6e04fc21c34534
 
 # 4. Install/configure kubectl
 
-* #### Option 1. Requires Chocolatey - [Install Here](https://chocolatey.org/install) 
-
 ```
 choco install kubernetes-cli
-kubectl version --client
-```
-
-* #### Option 2. Install manually
-
-```
-curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.18.0/bin/windows/amd64/kubectl.exe
-kubectl version --client
+cd c:/Users/username
+mkdir .kube
+cd .kube
+New-Item config -type file
 ```
 
 # 5. Now all the fun we worked so hard for. 
 
 * #### Boostrap Master
 
+``` 
+k3sup install --ip=192.168.254.69 --user=username
 ```
-set VM1=173.208.139.88
-set USER=aaron 
-k3sup install --ip=%VM1% --user=%USER%
+* #### Copy kubeconfig to C:\Users\username\.kube\config
+
 ```
+Can click search, type notepad, right click notpad and run as administrator
+Click "File" and open C:\Users\aaron\.kube\config
+Paste in Kube config, save and open powershell
+kubectl get node -o wide
+```
+
+
 
 
