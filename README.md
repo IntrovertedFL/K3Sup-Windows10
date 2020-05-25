@@ -146,4 +146,20 @@ PS C:\Users\me> k3sup version
 Git Commit: 5a636dba10e1f8e6bb4bb5982c6e04fc21c34534
 ```
 
+# 4. Install/configure kubectl
+
+* #### Option 1. Requires Chocolatey - [Install Here](https://chocolatey.org/install) 
+
+```
+choco install kubernetes-cli
+kubectl version --client
+```
+
+* #### Option 2. Install manually
+
+```
+curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.18.0/bin/windows/amd64/kubectl.exe
+kubectl version --client
+```
+
 
