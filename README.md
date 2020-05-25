@@ -103,6 +103,8 @@ sudo chown -R $(whoami):$(whoami) ~/.ssh/
 logout
 
 Should be able to ssh username@192.168.254.69 from Powershell now
+
+Don't forget to do same for all the other nodes
 ```
 ### D. Disable Password Authentication on your Server (Optional)
 
