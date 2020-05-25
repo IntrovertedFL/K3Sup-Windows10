@@ -160,9 +160,12 @@ New-Item config -type file
 
 Sample hosts
 
-*  192.168.254.69 - master (server ip)
-*  192.168.254.70 - node1
-*  192.168.254.71 - node2
+```
+192.168.254.69 - master (server ip)
+192.168.254.70 - node1
+192.168.254.71 - node2
+```
+
 
 * #### Boostrap Master
 
@@ -172,8 +175,8 @@ k3sup install --ip=192.168.254.69 --user=username
 * #### Copy kubeconfig to C:\Users\username\.kube\config
 
 ```
-Can click search, type notepad, right click notpad and run as administrator
-Click "File" and open C:\Users\aaron\.kube\config
+Can click search, type notepad, right click notepad and run as administrator
+Click "File" and open C:\Users\me\.kube\config
 Paste in Kube config, save and open powershell
 kubectl get node -o wide
 ```
