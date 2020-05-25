@@ -1,61 +1,145 @@
-# K3Sup-Windows10
+# K3Sup Windows10/Server 2019
 
-Environment
-OS: Windows 10
-Pre-requisite :
+### Pre-requisite :
 
-kubectl for windows (download from kubernetes.io)
+* #### [openssh for windows ](https://docs.microsoft.com/en-us/windows-server/administration/openssh/openssh_install_firstuse)
+* #### [k3sup.exe](https://github.com/alexellis/k3sup/releases)
+* #### [kubectl for windows](https://kubernetes.io/docs/tasks/tools/install-kubectl/#install-kubectl-on-windows)
 
-openssh for windows (see Microsoft documentation)
+# 1. Install/Configure 3 VM's (I have created 3 Ubuntu 18.04 Machines Using [Proxmox](https://www.proxmox.com/en/))
 
-k3sup (download k3sup.exe from Release Page)
+* #### Enable Passwordless Sudo
 
-Infrastructure setup:
-Provision (1 or 2) new virtual machine running a compatible operating system such as Ubuntu, Debian, Raspbian, or something else.
-With 1 VM you can just run k3s.
-With 2 you can join the second VM to the first as a worker node.
+```
+sudo nano /etc/sudoers
+Find the line which contains #includedir /etc/sudoers.d
+Below that line add: username ALL=(ALL) NOPASSWD: ALL
+```
 
-The rest of this document assumes you have 2 VM's with ubuntu as the user and IP's as 192.168.83.128, 192.168.83.129
+* #### Disable Swap
 
-Note : ssh-copy-id is not available on openssh for windows. You generate your private/public key and then copy the public key over manually to the linux device.
+```
+swapoff -a
+nano /etc/fstab
+Comment out line "#/dev/mapper/master--vg-swap_1 none            swap    sw              0       0"
+reboot and make sure it's off!! It doesn't play well with kubernetes.
+do "free -h" and make sure swap says "0"
+```
 
-To generate a new key on windows
-ssh-keygen
 
-Now lets copy it over from windows to the remote device (will ask for password this time)
 
-scp c:\user\<your_name>\.ssh\id_rsa.pub ubuntu@192.168.83.129:/home/ubuntu/key.pub
+# 2. Install/Configure OpenSSH on Windows Server 2019/Windows 10 1809
 
-On the remote linux device - logged in as ubuntu
+### A. Install OpenSSH
 
-ubuntu@vm1:~$ cat key.pub >>~/.ssh/authorized_keys
-ubuntu@vm1:~$ rm key.pub
-Repeat on second VM (if required)
+* #### Via Windows GUI
 
-ubuntu@vm2:~$ cat key.pub >>~/.ssh/authorized_keys
-ubuntu@vm2:~$ rm key.pub
-Test from windows by
-ssh ubuntu@192.168.83.128
 
-Aim is that you can login without requiring a password.
+> https://docs.microsoft.com/en-us/windows-server/administration/openssh/openssh_install_firstuse 
 
-Finally you need to ensure you can use sudo on the linux device without requiring a password.
-This requires running the following command on the linux device(s)
-sudo visudo
+* #### Via Powershell
 
-and adding the following text to the end (which enables the ubuntu user to use sudo without password)
-ubuntu ALL=(ALL) NOPASSWD: ALL
 
-Run k3sup :
-set VM1=192.168.83.128
-set USER=ubuntu 
-k3sup install --ip=%VM1% --user=%USER%
-All this going well - you should now get a lot of text followed by
+> https://docs.microsoft.com/en-us/windows-server/administration/openssh/openssh_install_firstuse#installing-openssh-with-powershell 
 
-Saving file to: C:\Users\<your_name>\k3sup\upstream\kubeconfig
+### B. Generate SSH Key
 
-Set your environment variable using path from previous command
+* #### Open Elevated Powershell (Note the key's location C:\Users\me/.ssh/)
 
-set KUBECONFIG=C:\Users\<your_name>\k3sup\upstream\kubeconfig
+```
+PS cd C:\
+PS C:\ mkdir K3Sup
+PS cd C:\K3Sup
+PS C:\K3Sup> ssh-keygen
+Generating public/private rsa key pair.
+Enter file in which to save the key (C:\Users\me/.ssh/id_rsa):
+Enter passphrase (empty for no passphrase):
+Enter same passphrase again:
+Your identification has been saved in C:\Users\me/.ssh/id_rsa.
+Your public key has been saved in C:\Users\me/.ssh/id_rsa.pub.
+The key fingerprint is:
+SHA256:JzBE+x5mKPpflttEQYTtrno6ZOACheVlXKEVpvB8SHM me@my-Lappy
+The key's randomart image is:
++---[RSA 3072]----+
+| oo.=oEo +o      |
+|...B.X ....      |
+| .. * =  ..      |
+|.   .. =  ..     |
+| . .... S.o      |
+|  ....o+ *.      |
+|  .. o  =..      |
+|   .  .oo+       |
+|    ..+=. .      |
++----[SHA256]-----+
+PS C:\K3Sup>
+```
 
-Now test with kubectl and you should get remote access to k3s on that remote VM
+### C. Copy key to all 3 Machines
+
+* #### Option 1. Use SCP (Didn't work for me)
+
+```
+scp ~/.ssh/id_rsa.pub aaron@173.208.139.88:~/.ssh/authorized_keys
+```
+* #### Option 2. Manually Copy 
+
+```
+SSH into the first machine
+Make sure you are not root
+
+sudo mkdir ~/.ssh
+sudo chmod 700 ~/.ssh
+sudo nano ~/.ssh/authorized_keys
+
+Copy and paste key from C:\Users\me/.ssh/id_rsa.pub (Can Open With Notepad)
+
+Paste key into "~/.ssh/authorized_keys"
+
+Do "Ctrl o" 
+Press enter & "Ctrl x"
+
+sudo chmod 600 ~/.ssh/authorized_keys
+sudo chown -R $(whoami):$(whoami) ~/.ssh/
+logout
+```
+# D. Disable Password Authentication on your Server
+
+```
+sudo nano /etc/ssh/sshd_config
+
+Change line #PasswordAuthentication Yes to
+
+PasswordAuthentication no
+```
+
+# 3. Install and Configure K3Sup.exe
+
+* #### Download K3Sup.exe
+
+[Get Latest Here](https://github.com/alexellis/k3sup/releases)
+
+```
+Download K3Sup.exe to the folder we created C:\K3Sup
+
+Open the Search, type in “env”, Click on "Edit Eviroment Variables for **Your Account**"
+
+At Top in "User Varibles" Click on the "Path" Variable line and select Edit.
+
+On right Select "Browse" and select the folder we created that you added K3Sup.exe too.
+```
+```
+Now Open Powershell and * Note may need to close and reopen Powershell to take effect.
+
+PS cd C:\K3Sup
+PS C:\Users\me> k3sup version
+←[31m _    _____
+| | _|___ / ___ _   _ _ __
+| |/ / |_ \/ __| | | | '_ \
+|   < ___) \__ \ |_| | |_) |
+|_|\_\____/|___/\__,_| .__/
+                     |_|
+←[0mVersion: 0.9.2
+Git Commit: 5a636dba10e1f8e6bb4bb5982c6e04fc21c34534
+```
+
+
