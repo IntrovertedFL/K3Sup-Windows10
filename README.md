@@ -104,7 +104,7 @@ logout
 
 Should be able to ssh username@192.168.254.69 from Powershell now
 ```
-# D. Disable Password Authentication on your Server (Optional)
+### D. Disable Password Authentication on your Server (Optional)
 
 ```
 sudo nano /etc/ssh/sshd_config
