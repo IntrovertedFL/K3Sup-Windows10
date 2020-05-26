@@ -224,3 +224,25 @@ k3sup join \
   --server-user $USER \
   --server-ip $NODE_1
   ```
+  **Make sure we are remaining in gitbash**
+  
+  ```
+  aaron@Shed-Lappy MINGW64 ~/k3sup
+$ ./bootstrap.sh
+  ```
+  
+  Once that is complete.
+  
+  ```
+  aaron@Shed-Lappy MINGW64 ~/k3sup
+$ export KUBECONFIG=`pwd`/kubeconfig
+
+aaron@Shed-Lappy MINGW64 ~/k3sup
+$ kubectl get node
+NAME     STATUS   ROLES    AGE   VERSION
+node01   Ready    master   54s   v1.17.2+k3s1
+master   Ready    master   81s   v1.17.2+k3s1
+node02   Ready    master   35s   v1.17.2+k3s1
+```
+
+**Have Fun :)**
