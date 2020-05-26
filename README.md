@@ -1,6 +1,6 @@
 # Multi-master HA Kubernetes using K3Sup on Windows10/Server 2019 (video tutorial in the works)
 
-### Pre-requisite :
+### Software used:
 
 * #### [Visual Studio Code](https://code.visualstudio.com/download)
 * #### [openssh for windows ](https://docs.microsoft.com/en-us/windows-server/administration/openssh/openssh_install_firstuse)
