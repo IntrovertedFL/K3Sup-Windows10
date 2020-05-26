@@ -204,6 +204,7 @@ node02   Ready    <none>   11m   v1.17.2+k3s1   192.168.254.71   <none>        U
 
 # 6. Download/Configure Arkade
 
+```
 No need to configure.
 Download Arkade.exe to the folder we created C:\K3Sup
 Now go back to Powershell and
@@ -286,10 +287,12 @@ Flags:
       --wait                If we should wait for the resource to be ready before returning (helm3 only, default false)
 
 Use "arkade install [command] --help" for more information about a command.
+```
 
-# Inlets Pro
 
-````
+# Download/Configure Inlets Pro
+
+```
 No need to configure.
 Download inlets-pro.exe to the folder we created C:\K3Sup
 Now go back to Powershell and
@@ -320,3 +323,30 @@ Flags:
   -h, --help   help for inlets-pro
 
 Use "inlets-pro [command] --help" for more information about a command.
+
+PS C:\Users\me> inlets-pro server -h
+Start the tunnel server.
+
+Usage:
+  inlets-pro server [flags]
+
+Examples:
+  inlets server \
+    --auto-tls \
+    --common-name PUBLIC_IP \
+    --listen :8123 \
+    --token AUTH_TOKEN
+
+Flags:
+      --auto-tls               Generate a TLS CA and cert (default true)
+      --auto-tls-path string   Path for self-signed TLS CA
+      --common-name string     Common Name for TLS certificate
+      --debug                  Debug logging
+  -h, --help                   help for server
+      --id string              Peer ID - leave as default
+      --listen string          Listen address for the control-port (control-plane) (default ":8123")
+      --peers string           Peers format id:token:url,id:token:url  - leave as default
+      --remote-tcp string      Remote host to forward to on client's network (default "192.168.0.35")
+      --token string           Inlets authentication token for control-plane
+```
+
