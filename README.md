@@ -1,3 +1,5 @@
+![](./img/k3sup-on-windows.png)
+
 # Multi-master HA Kubernetes using K3Sup on Windows10/Server 2019 (video tutorial in the works)
 
 ### Software used:
