@@ -9,7 +9,46 @@
 * #### [kubectl for windows](https://kubernetes.io/docs/tasks/tools/install-kubectl/#install-kubectl-on-windows)
 * #### 3 Virtual Machines
 
-# 1. Install/Configure 3 VM's (I have created 3 Ubuntu 18.04 Machines Using [Proxmox](https://www.proxmox.com/en/))
+# 1. Install K3Sup.exe
+
+```
+With Powershell (change username to you & take notice of version of k3sup 0.9.2)
+
+Invoke-WebRequest https://github.com/alexellis/k3sup/releases/download/0.9.2/k3sup.exe -OutFile C:\Users\aaron\k3sup\K3sup.exe
+```
+
+```
+Open the Search, type in “env”, Click on "Edit Enviroment Variables for **Your Account**"
+
+At Top in "User Varibles" Click on the "Path" Variable line and select Edit.
+
+On right Select "Browse" and select the folder we created that you added K3Sup.exe too.
+```
+```
+PS C:\Users\aaron> k3sup
+ _    _____
+| | _|___ / ___ _   _ _ __  
+| |/ / |_ \/ __| | | | '_ \ 
+|   < ___) \__ \ |_| | |_) |
+|_|\_\____/|___/\__,_| .__/ 
+                     |_|    
+Usage:
+  k3sup [flags]
+  k3sup [command]
+
+Available Commands:
+  app         Install Kubernetes apps from helm charts or YAML files
+  help        Help about any command
+  install     Install k3s on a server via SSH
+  join        Install the k3s agent on a remote host and join it to an existing server
+  update      Print update instructions
+  version     Print the version
+
+Flags:
+  -h, --help   help for k3sup
+```
+
+# 2. Install/Configure 3 VM's (I have created 3 Ubuntu 18.04 Machines Using [Proxmox](https://www.proxmox.com/en/))
 
 * #### Configure hosts
 
@@ -26,7 +65,6 @@ Sample
 ff02::1 ip6-allnodes ff02::2 ip6-allrouters
 192.168.254.89 - node01.tribestudios.io node01
 192.168.254.91 - node02.tribestudios.io node02
-192.168.254.92 - node03.tribestudios.io node03
 ```
 
 * #### Enable Passwordless Sudo
@@ -47,9 +85,7 @@ reboot and make sure it's off.
 do "free -h" and make sure swap says "0"
 ```
 
-
-
-# 2. Install/Configure OpenSSH on Windows Server 2019/Windows 10 1809
+# 3. Install/Configure OpenSSH on Windows Server 2019/Windows 10 1809
 
 ### A. Install OpenSSH
 
@@ -63,7 +99,16 @@ do "free -h" and make sure swap says "0"
 
 > https://docs.microsoft.com/en-us/windows-server/administration/openssh/openssh_install_firstuse#installing-openssh-with-powershell 
 
-### B. Generate SSH Key
+### B. Install Git & Kubectl - (install choco here - https://chocolatey.org/install)
+
+```
+Make sure to run powershell as administrator
+
+choco install git -y
+choco install kubernetes-cli
+```
+
+### C. Generate SSH Key
 
 * #### Open Visual Studio Code/Set default shell GitBash
 
@@ -129,8 +174,7 @@ PasswordAuthentication no
 
 sudo service ssh restart
 ```
-
-
+# 4. Now all the fun we worked so hard for.
 
 
 
