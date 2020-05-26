@@ -5,6 +5,8 @@
 * #### [openssh for windows ](https://docs.microsoft.com/en-us/windows-server/administration/openssh/openssh_install_firstuse)
 * #### [k3sup.exe](https://github.com/alexellis/k3sup/releases)
 * #### [kubectl for windows](https://kubernetes.io/docs/tasks/tools/install-kubectl/#install-kubectl-on-windows)
+* #### [Chocolatey](https://chocolatey.org/install) (Windows Package Manager)
+* #### 3 Virtual Machines
 
 # 1. Install/Configure 3 VM's (I have created 3 Ubuntu 18.04 Machines Using [Proxmox](https://www.proxmox.com/en/))
 
@@ -84,8 +86,7 @@ scp ~/.ssh/id_rsa.pub me@192.168.254.69:~/.ssh/authorized_keys
 * #### Option 2. Manually Copy 
 
 ```
-SSH into the first machine
-Make sure you are not root
+SSH into the first machine as "User"
 
 sudo mkdir ~/.ssh
 sudo chmod 700 ~/.ssh
@@ -127,7 +128,7 @@ sudo service ssh restart
 ```
 Download K3Sup.exe to the folder we created C:\K3Sup
 
-Open the Search, type in “env”, Click on "Edit Eviroment Variables for **Your Account**"
+Open the Search, type in “env”, Click on "Edit Enviroment Variables for **Your Account**"
 
 At Top in "User Varibles" Click on the "Path" Variable line and select Edit.
 
@@ -191,6 +192,131 @@ k3sup join --ip=192.168.254.70 --server-ip=192.168.254.69 --user=username
 k3sup join --ip=192.168.254.71 --server-ip=192.168.254.69 --user=username
 ```
 
+* #### Check Again
+
+```
+PS C:\Users\me> kubectl get node -o wide
+NAME     STATUS   ROLES    AGE   VERSION        INTERNAL-IP      EXTERNAL-IP   OS-IMAGE             KERNEL-VERSION       CONTAINER-RUNTIME
+master   Ready    master   54m   v1.17.2+k3s1   192.168.254.69   <none>        Ubuntu 18.04.4 LTS   4.15.0-101-generic   containerd://1.3.3-k3s1
+node01   Ready    <none>   12m   v1.17.2+k3s1   192.168.254.70   <none>        Ubuntu 18.04.4 LTS   4.15.0-101-generic   containerd://1.3.3-k3s1
+node02   Ready    <none>   11m   v1.17.2+k3s1   192.168.254.71   <none>        Ubuntu 18.04.4 LTS   4.15.0-101-generic   containerd://1.3.3-k3s1
+````
+
+# 6. Download/Configure Arkade
+
+No need to configure.
+Download Arkade.exe to the folder we created C:\K3Sup
+Now go back to Powershell and
+
+PS C:\Users\me> arkade
+            _             _      
+  __ _ _ __| | ____ _  __| | ___
+ / _` | '__| |/ / _` |/ _` |/ _ \
+| (_| | |  |   < (_| | (_| |  __/
+ \__,_|_|  |_|\_\__,_|\__,_|\___|
+
+Get Kubernetes apps the easy way
+
+Usage:
+  arkade [flags]
+  arkade [command]
+
+Available Commands:
+  help        Help about any command
+  info        Find info about a Kubernetes app
+  install     Install Kubernetes apps from helm charts or YAML files
+  update      Print update instructions
+  version     Print the version
+
+Flags:
+  -h, --help   help for arkade
+
+Use "arkade [command] --help" for more information about a command.
 
 
+PS C:\Users\me>arkade install -h
 
+Install Kubernetes apps from helm charts or YAML files using the "install" 
+command. Helm 3 is used by default unless you pass --helm3=false, then helm 2
+will be used to generate YAML files which are applied without tiller.
+
+You can also find the post-install message for each app with the "info"
+command.
+
+Usage:
+  arkade install [flags]
+  arkade install [command]
+
+Examples:
+  arkade install
+  arkade install openfaas --helm3 --gateways=2
+  arkade install inlets-operator --token-file $HOME/do-token
+
+Available Commands:
+  argocd                  Install argocd
+  cert-manager            Install cert-manager
+  chart                   Install the specified helm chart
+  cron-connector          Install cron-connector for OpenFaaS
+  crossplane              Install Crossplane
+  docker-registry         Install a Docker registry
+  docker-registry-ingress Install registry ingress with TLS
+  grafana                 Install grafana
+  info                    Find info about a Kubernetes app
+  ingress-nginx           Install ingress-nginx
+  inlets-operator         Install inlets-operator
+  istio                   Install istio
+  jenkins                 Install jenkins
+  kafka-connector         Install kafka-connector for OpenFaaS
+  kube-state-metrics      Install kube-state-metrics
+  kubernetes-dashboard    Install kubernetes-dashboard
+  linkerd                 Install linkerd
+  metrics-server          Install metrics-server
+  minio                   Install minio
+  mongodb                 Install mongodb
+  openfaas                Install openfaas
+  openfaas-ingress        Install openfaas ingress with TLS
+  portainer               Install portainer to visualise and manage containers
+  postgresql              Install postgresql
+  tekton                  Install Tekton pipelines and dashboard
+  traefik2                Install traefik2
+
+Flags:
+  -h, --help                help for install
+      --kubeconfig string   Local path for your kubeconfig file (default "kubeconfig")
+      --wait                If we should wait for the resource to be ready before returning (helm3 only, default false)
+
+Use "arkade install [command] --help" for more information about a command.
+
+# Inlets Pro
+
+````
+No need to configure.
+Download inlets-pro.exe to the folder we created C:\K3Sup
+Now go back to Powershell and
+
+PS C:\Users\me> inlets-pro
+ _       _      _            _
+(_)_ __ | | ___| |_ ___   __| | _____   __
+| | '_ \| |/ _ \ __/ __| / _` |/ _ \ \ / /
+| | | | | |  __/ |_\__ \| (_| |  __/\ V /
+|_|_| |_|_|\___|\__|___(_)__,_|\___| \_/
+
+PRO edition
+
+
+        Tunnel TCP traffic at L4
+
+Usage:
+  inlets-pro [flags]
+  inlets-pro [command]
+
+Available Commands:
+  client      Start the tunnel client.
+  help        Help about any command
+  server      Start the tunnel server.
+  version     Display the clients version information.
+
+Flags:
+  -h, --help   help for inlets-pro
+
+Use "inlets-pro [command] --help" for more information about a command.
