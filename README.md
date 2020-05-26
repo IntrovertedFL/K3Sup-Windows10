@@ -348,5 +348,36 @@ Flags:
       --peers string           Peers format id:token:url,id:token:url  - leave as default
       --remote-tcp string      Remote host to forward to on client's network (default "192.168.0.35")
       --token string           Inlets authentication token for control-plane
+
+
+PS C:\Users\me> inlets-pro client -h
+Start the tunnel client.
+
+Note: You can pass the --token argument followed by a token value to both the server and client to prevent unauthorized connections to the tunnel.
+
+Usage:
+  inlets-pro client [flags]
+
+Examples:
+
+  inlets client \
+    --connect wss://REMOTE_IP:8123 \
+    --token AUTH_TOKEN \
+    --tcp-ports 80,443 \
+    --license LICENSE
+
+Flags:
+      --auto-tls              Toggle use of self-signed TLS CA, disable if providing own TLS (default true)
+      --connect string        Address of control-plane for server i.e. wss://localhost:8123/connect (default "ws://localhost:8123/connect")
+      --debug                 Debug logging
+      --generate string       Generate a service file for one of the following: systemd
+  -h, --help                  help for client
+      --id string             Peer ID for client - leave as default (default "inlets-client")
+      --license string        Your JWT license for inlets pro
+      --license-file string   JWT license for inlets pro from a file
+      --tcp-ports string      TCP ports to open on server, comma separated (default "80,443")
+      --token string          Token for authentication
 ```
+
+
 
