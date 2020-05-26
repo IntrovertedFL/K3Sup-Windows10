@@ -12,6 +12,8 @@
 # 1. Install K3Sup.exe
 
 ```
+In this tutorial I created a folder K3sup @ C:\Users\aaron\k3sup\
+
 With Powershell (change username to you & take notice of version of k3sup 0.9.2)
 
 Invoke-WebRequest https://github.com/alexellis/k3sup/releases/download/0.9.2/k3sup.exe -OutFile C:\Users\aaron\k3sup\K3sup.exe
@@ -99,14 +101,16 @@ do "free -h" and make sure swap says "0"
 
 > https://docs.microsoft.com/en-us/windows-server/administration/openssh/openssh_install_firstuse#installing-openssh-with-powershell 
 
-### B. Install Git & Kubectl - (install choco here - https://chocolatey.org/install)
+### B. Install Git, vscode & Kubectl - (install choco here - https://chocolatey.org/install)
 
 ```
 Make sure to run powershell as administrator
 
 choco install git -y
-choco install kubernetes-cli
+choco install kubernetes-cli -y
+choco install vscode -y
 ```
+**Might need to reboot after all that.**
 
 ### C. Generate SSH Key
 
@@ -176,5 +180,47 @@ sudo service ssh restart
 ```
 # 4. Now all the fun we worked so hard for.
 
+* #### Create bootstrap.sh
 
+**Again I created a folder for k3sup for simplicity**
 
+```
+aaron@Shed-Lappy MINGW64 ~
+$ cd k3sup
+
+aaron@Shed-Lappy MINGW64 ~/k3sup
+$ touch bootstrap.sh
+```
+**Paste into bootstrap.sh** (make sure to change ip's)
+
+```
+#!/bin/bash
+set -e
+
+export NODE_1="192.168.254.88"
+export NODE_2="192.168.254.89"
+export NODE_3="192.168.254.91"
+export USER=root
+
+# The first server starts the cluster
+k3sup install \
+  --cluster \
+  --user $USER \
+  --ip $NODE_1
+
+# The second node joins
+k3sup join \
+  --server \
+  --ip $NODE_2 \
+  --user $USER \
+  --server-user $USER \
+  --server-ip $NODE_1
+
+# The third node joins
+k3sup join \
+  --server \
+  --ip $NODE_3 \
+  --user $USER \
+  --server-user $USER \
+  --server-ip $NODE_1
+  ```
